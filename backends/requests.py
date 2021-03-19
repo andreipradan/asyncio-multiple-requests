@@ -30,4 +30,4 @@ async def fetch_many(base_url, no_of_pages, callback):
                 )
                 for i in range(1, no_of_pages + 1)
             ]
-            return sum([callback(task) for task in await asyncio.gather(*tasks)])
+            return map(callback, await asyncio.gather(*tasks))

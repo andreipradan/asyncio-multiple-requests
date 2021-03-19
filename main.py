@@ -29,14 +29,14 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     if backend == 1:
         start = default_timer()
-        result = loop.run_until_complete(aiohttp.fetch_many(loop, url, pages, extract_trips))
+        result = sum(loop.run_until_complete(aiohttp.fetch_many(loop, url, pages, extract_trips)))
         aiohttp_time = default_timer() - start
         print(" == Aiohttp == ")
         print(f"Total trips: {result}")
         print(f"Duration: {aiohttp_time}s")
     elif backend == 2:
         future = asyncio.ensure_future(requests.fetch_many(url, pages, extract_trips))
-        result = loop.run_until_complete(future)
+        result = sum(loop.run_until_complete(future))
         requests_time = default_timer() - start
         print(" == Requests == ")
         print(f"Total trips: {result}")

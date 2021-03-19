@@ -21,6 +21,6 @@ async def fetch(session, sem, url, i):
 async def fetch_many(loop, url, pages, callback):
     sem = asyncio.Semaphore(settings.SEMAPHORE_VALUE)
     async with aiohttp.ClientSession(loop=loop) as session:
-        return sum([callback(task) for task in await asyncio.gather(
+        return map(callback, await asyncio.gather(
             *[fetch(session, sem, url, i) for i in range(1, pages + 1)]
-        )])
+        ))
